@@ -70,6 +70,13 @@ def verify_folders(root, config):
         "references",
         "reports",
         "reports/figures",
+        "scripts",
+        "scripts/data_gathering",
+        "scripts/dba",
+        "scripts/data_processing",
+        "scripts/data_visualization",
+        "scripts/data_cleanup",
+        "configs",
         config["module_name"],
     ]
 
@@ -81,11 +88,7 @@ def verify_folders(root, config):
     if config["docs"] == "mkdocs":
         expected_dirs += ["docs/docs"]
 
-    expected_dirs = [
-        #  (root / d).resolve().relative_to(root) for d in expected_dirs
-        Path(d)
-        for d in expected_dirs
-    ]
+    expected_dirs = [Path(d) for d in expected_dirs]
 
     existing_dirs = [
         d.resolve().relative_to(root) for d in root.glob("**") if d.is_dir()
@@ -112,6 +115,12 @@ def verify_files(root, config):
         "references/.gitkeep",
         "reports/.gitkeep",
         "reports/figures/.gitkeep",
+        "scripts/data_gathering/.gitkeep",
+        "scripts/dba/.gitkeep",
+        "scripts/data_processing/.gitkeep",
+        "scripts/data_visualization/.gitkeep",
+        "scripts/data_cleanup/.gitkeep",
+        "configs/.gitkeep",
         "models/.gitkeep",
         f"{config['module_name']}/__init__.py",
     ]
