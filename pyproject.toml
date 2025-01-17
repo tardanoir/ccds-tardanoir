@@ -42,3 +42,28 @@ ccds = "ccds.__main__:main"
 "Source Code" = "https://github.com/drivendataorg/cookiecutter-data-science/"
 "Bug Tracker" = "https://github.com/drivendataorg/cookiecutter-data-science/issues"
 "DrivenData" = "https://drivendata.co"
+
+[tool.ruff]
+# Enable pycodestyle (`E`) and Pyflakes (`F`) codes by default.
+select = ["E", "F"]
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".git",
+    ".venv",
+    "build",
+    "dist"
+]
+# Same as Black.
+line-length = 99
+
+[tool.ruff.lint.isort]
+known-first-party = ["{{ cookiecutter.module_name }}"]
+
+[tool.ruff.format]
+# Use single quotes for strings
+quote-style = "single"
+# Indent with 4 spaces
+indent-style = "space"
+line-ending = "auto"

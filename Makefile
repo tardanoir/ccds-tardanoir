@@ -1,5 +1,6 @@
 .PHONY: _prep create_environment requirements format lint docs docs-serve test \
-	test-fastest test-debug-fastest _clean_manual_test manual-test manual-test-debug
+	test-fastest test-debug-fastest _clean_manual_test manual-test manual-test-debug \
+	check-code
 
 ## GLOBALS
 
@@ -24,15 +25,13 @@ create_environment:
 requirements:
 	$(PYTHON_INTERPRETER) -m pip install -r dev-requirements.txt
 
-## Format the code using isort and black
+## Format the code using ruff
 format:
-	isort --profile black ccds hooks tests docs/scripts
-	black ccds hooks tests docs/scripts
+	ruff format {{ cookiecutter.module_name }}
+	ruff check --fix {{ cookiecutter.module_name }}
 
 lint:
-	flake8 ccds hooks tests docs/scripts
-	isort --check --profile black ccds hooks tests docs/scripts
-	black --check ccds hooks tests docs/scripts
+	ruff check {{ cookiecutter.module_name }}
 
 
 ###     DOCS
@@ -64,3 +63,5 @@ manual-test: _prep _clean_manual_test
 manual-test-debug: _prep _clean_manual_test
 	mkdir -p manual_test
 	cd manual_test && python -m pdb ../ccds/__main__.py ..
+
+check-code: format lint

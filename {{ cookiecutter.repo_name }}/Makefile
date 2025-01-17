@@ -31,17 +31,17 @@ clean:
 	find . -type f -name "*.py[co]" -delete
 	find . -type d -name "__pycache__" -delete
 
-## Lint using flake8 and black (use `make format` to do formatting)
-.PHONY: lint
-lint:
-	flake8 {{ cookiecutter.module_name }}
-	isort --check --diff --profile black {{ cookiecutter.module_name }}
-	black --check --config pyproject.toml {{ cookiecutter.module_name }}
-
-## Format source code with black
 .PHONY: format
 format:
-	black --config pyproject.toml {{ cookiecutter.module_name }}
+	ruff format {{ cookiecutter.module_name }}
+	ruff check --fix {{ cookiecutter.module_name }}
+
+.PHONY: lint
+lint:
+	ruff check {{ cookiecutter.module_name }}
+
+.PHONY: check-code
+check-code: format lint
 
 {% if not cookiecutter.dataset_storage.none %}
 ## Download Data from storage system
